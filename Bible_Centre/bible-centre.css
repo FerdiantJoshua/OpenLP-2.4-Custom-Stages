@@ -1,0 +1,54 @@
+/******************************************************************************
+* OpenLP - Open Source Lyrics
+
+To create a simple transparent stage view. 
+ 
+
+*/
+
+body {
+  background-color:transparent;
+  font-family: sans-serif;
+  
+}
+
+#songtitle { 
+	font-size:1.25vw; 
+	text-decoration:underline; 
+	position: absolute;
+	Top: 0.5%;
+        Left: 0.5%;
+  	color: white;
+  	text-shadow: 2px 2px grey;
+  
+  	padding: 0.5%;
+  	text-align: left;
+}
+
+#currentslide {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  
+  width: 70%;
+  font-size:3.25vw;
+  color: white;
+  text-shadow: 2px 2px grey;
+  padding: 4%;
+  text-align: center; 
+    
+}
+
+#nextslide {
+
+	visibility: colapse; 
+	display: none
+}
+
+
+
+
+
