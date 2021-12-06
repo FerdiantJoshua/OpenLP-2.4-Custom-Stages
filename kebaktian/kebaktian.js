@@ -19,9 +19,6 @@ window.OpenLP = {
         const options = { year: 'numeric', month: 'long', day: '2-digit' };
         const date = new Date()
         $("#slide-date").html(date.toLocaleDateString("id-id", options));
-
-        // $("#notes").html(data.results.slides[OpenLP.currentSlide].notes);
-        // console.log(data.results.slides[OpenLP.currentSlide].notes);
       }
     );
 
