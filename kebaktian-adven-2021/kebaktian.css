@@ -1,0 +1,111 @@
+@font-face {
+    font-family: 'Lemon Milk Regular';
+    src: url('/stage/fonts/LEMONMILK-Regular.otf');
+}
+
+@font-face {
+    font-family: 'Lemon Milk Bold';
+    src: url('/stage/fonts/LEMONMILK-Bold.otf');
+}
+
+body {
+    /* background-color: rgba(40, 40, 40); */
+    background-color: rgba(0, 0, 0, 0);
+    font-family:'Lemon Milk Regular';
+    font-size: 3.2vh;
+    color: black;
+    overflow: hidden;
+}
+
+#middle {
+    margin-left: 37vh;
+    margin-top: 70vh;
+    width: 100vh;
+    height: 18vh;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+#slide-header {
+    height: 4vh;
+    width: 100%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+#slide-header-text {
+    font-size: 2vh;
+    font-family:'Lemon Milk Bold';
+    /* line-height: 90%; */
+    /* text-align: center; */
+    font-weight: bold;
+    text-align: left;
+}
+#slide-main {
+    width: 100%;
+    min-height: 10vh;
+    /* display: flex;
+    align-items: center; */
+}
+#main-text {
+    font-family:'Lemon Milk Regular';
+    font-size: 3.5vh;
+    line-height: 100%;
+    /* outline: 2px solid black; */
+    /* height: 1.5vh;
+    text-align: center;
+    font-weight: bold; */
+}
+/* #slide-date {
+    margin-top: 0.7vh;
+    height: 1.5vh;
+    font-size: 1.3vh;
+    line-height: 90%;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+} */
+
+#right {
+    margin-top: 1.5vh;
+    width: 16vh;
+    float: right;
+}
+#notes {
+    font-size: 1.45vh;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+}
+
+#slide-image {
+    position: absolute;
+    top: 0px;
+    vertical-align: middle;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    display: block;
+}
+
+#interim {
+    display: none;
+}
+
+.outline {
+    color: white;
+    -webkit-text-fill-color: black; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: white;
+}
+
+.shadow-white {
+    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white;
+  }
+
+.shadow-black {
+    text-shadow: 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black, 0 0 4px black;
+}
