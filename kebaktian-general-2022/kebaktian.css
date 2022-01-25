@@ -108,6 +108,14 @@ body {
     visibility: hidden;
 }
 
+.small {
+    font-size: smaller;
+}
+
+.large {
+    font-size: larger;
+}
+
 .outline {
     color: white;
     -webkit-text-fill-color: black; /* Will override color (regardless of order) */
