@@ -62,7 +62,7 @@ window.OpenLP = {
 
         // Get congregation instruction
         let DOMCongregationInstructionTexts = $("#interim").find(".congregation-instruction-texts")
-        let congregationInstructionText = defaultCongregationInstructionText
+        let congregationInstructionText = defaultCongregationInstructionText;
         if (DOMCongregationInstructionTexts.length > 0) {
           congregationInstructionText = DOMCongregationInstructionTexts[0].innerHTML;
           if (congregationInstructionText.includes(DUDUK)) {
@@ -76,6 +76,9 @@ window.OpenLP = {
           removeDOMWithPrevOrNextBr(DOMCongregationInstructionTexts);
         }
         congregationInstructionText = congregationInstructionText.trim().toUpperCase();
+        if (congregationInstructionText != "") {
+          congregationInstructionText = "(" + congregationInstructionText + ")";
+        }
 
         // Get content
         let mainText = $("#interim")[0].innerHTML;
@@ -85,11 +88,6 @@ window.OpenLP = {
         mainText = mainText.trim()
         
         // Set HTML values
-        if (congregationInstructionText == "") {
-          $("#congregation-instruction").addClass("invisible")
-        } else {
-          $("#congregation-instruction").removeClass("invisible")
-        }
         $("#congregation-instruction").html(congregationInstructionText);
         $("#slide-header-text").html(slideHeaderText);
         $("#main-text").html("");
