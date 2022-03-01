@@ -69,7 +69,12 @@ window.OpenLP = {
         }
         $("#congregation-instruction").html(congregationInstructionText);
         $("#slide-header-text").html(slideHeaderText);
-        $("#main-text").html(mainText);
+        if (mainText != BLANK) {
+          $("#main-text").html(mainText);
+        } else {
+          $("#main-text").html("");
+        }
+        
 
         // ADJUSTMENTS
         // Outlines
