@@ -5,6 +5,7 @@ const JEMAAT_BERDIRI = "Jemaat Berdiri";
 const BLANK = "((blank))";
 
 const RGB_GREEN = "rgb(0, 128, 0)";
+const RGB_BLUE = "rgb(0, 0, 255)";
 const RGB_YELLOW = "rgb(255, 255, 0)";
 const RGB_BLACK = "rgb(0, 0, 0)";
 const RGB_WHITE = "rgb(255, 255, 255)";
@@ -18,7 +19,8 @@ function removeDOMWithPrevOrNextBr(DOMElement) {
   const next = DOMElement.next()
   if (prev.is("br")) {
     prev.remove();
-  } else if (next.is("br")) {
+  }
+  if (next.is("br")) {
     next.remove();
   }
   DOMElement.remove()
@@ -36,11 +38,11 @@ window.OpenLP = {
         let DOMSlideHeaderTexts = $("#interim").find(".slide-header-texts")
         let slideHeaderText = defaultSlideHeaderText
         if (DOMSlideHeaderTexts.length > 0) {
-          slideHeaderText = DOMSlideHeaderTexts[0].innerHTML;
+          slideHeaderText = Array.from(DOMSlideHeaderTexts, (el) => el.innerHTML);
 
           removeDOMWithPrevOrNextBr(DOMSlideHeaderTexts);
         }
-        slideHeaderText = slideHeaderText.trim();
+        slideHeaderText = slideHeaderText.join('\n').trim();
 
         // Get congregation instruction
         let DOMCongregationInstructionTexts = $("#interim").find(".congregation-instruction-texts")
@@ -85,6 +87,8 @@ window.OpenLP = {
             $(this).addClass("shadow-white");
           } else if (textColor == RGB_YELLOW || textColor == RGB_WHITE) {
             $(this).addClass("shadow-black");
+          } else if (textColor == RGB_BLUE) {
+            $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
           }
         });
 
