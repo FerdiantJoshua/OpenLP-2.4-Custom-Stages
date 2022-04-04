@@ -1,5 +1,5 @@
-const DUDUK = "duduk";
-const BERDIRI = "berdiri";
+const DUDUK = "(duduk)";
+const BERDIRI = "(berdiri)";
 const JEMAAT_DUDUK = "Jemaat Duduk";
 const JEMAAT_BERDIRI = "Jemaat Berdiri";
 const BLANK = "((blank))";
@@ -60,6 +60,7 @@ window.OpenLP = {
         congregationInstructionText = congregationInstructionText.trim();
 
         // Get content
+        let DOMMainText = $("#main-text");
         let mainText = $("#interim")[0].innerHTML;
         mainText = mainText.trim()
         
@@ -72,15 +73,15 @@ window.OpenLP = {
         $("#congregation-instruction").html(congregationInstructionText);
         $("#slide-header-text").html(slideHeaderText);
         if (mainText != BLANK) {
-          $("#main-text").html(mainText);
+          DOMMainText.html(mainText);
         } else {
-          $("#main-text").html("");
+          DOMMainText.html("");
         }
         
 
-        // ADJUSTMENTS
+        // ---------- ADJUSTMENTS ----------
         // Outlines
-        let spans = $("#main-text").find("span")
+        let spans = DOMMainText.find("span");
         spans.each(function() {
           let textColor = $(this).css("-webkit-text-fill-color")
           if (textColor == RGB_GREEN || textColor == RGB_BLACK) {
@@ -91,6 +92,24 @@ window.OpenLP = {
             $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
           }
         });
+
+        // Line-height on small styles (small texts should have narrower line-height)
+        let nonBrElements = 0;
+        let nonBrSmallElements = 0;
+        for (element of DOMMainText.contents()) {
+          if (element.tagName != "BR") {
+            nonBrElements += 1
+            if (element.className == "small") {
+              nonBrSmallElements += 1
+            }
+          }
+        }
+        if (nonBrElements != 0 && nonBrElements == nonBrSmallElements) {
+          DOMMainText.css("line-height", "90%")
+        } else {
+          DOMMainText.css("line-height", "")
+        }
+        // ---------- END OF ADJUSTMENTS ----------
 
         // const options = { year: 'numeric', month: 'long', day: '2-digit' };
         // const date = new Date()
