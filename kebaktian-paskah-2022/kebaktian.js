@@ -14,6 +14,11 @@ const defaultSlideHeaderText = "Kebaktian Minggu Adven";
 const defaultCongregationInstructionText = "";
 // const defaultNotesText = "Kebaktian";
 
+const OPTION_NO_ANIMATION = "no animation";
+const TEXT_TRANSITION_DURATION = 300;
+const LOWER_THIRD_FADE_IN_DURATION = 200;
+const LOWER_THIRD_FADE_OUT_DURATION = 350;
+
 function removeDOMWithPrevOrNextBr(DOMElement) {
   const prev = DOMElement.prev()
   const next = DOMElement.next()
@@ -27,6 +32,18 @@ function removeDOMWithPrevOrNextBr(DOMElement) {
 }
 
 window.OpenLP = {
+  animateDOMTextTransition: function (DOMText_1, DOMText_2, useSecondDOM) {
+    // Don't use animation if they have same text
+    let transitionDuration = DOMText_1.text() == DOMText_2.text() || !OpenLP.useAnimation ? 0 : TEXT_TRANSITION_DURATION;
+    if (useSecondDOM) {
+      DOMText_1.fadeOut(transitionDuration);
+      DOMText_2.fadeIn(transitionDuration);
+    } else {
+      DOMText_1.fadeIn(transitionDuration);
+      DOMText_2.fadeOut(transitionDuration);
+    }
+  },
+
   loadSlide: function (event) {
     $.getJSON(
       "/api/controller/live/text",
@@ -59,19 +76,40 @@ window.OpenLP = {
         }
         congregationInstructionText = congregationInstructionText.trim();
 
+        // Juggle the use of 2 text-container elements for text transition animation
+        const DOMMainText_1 = $("#main-text-1");
+        const DOMMainText_2 = $("#main-text-2");
+        const DOMCongInstText_1 = $("#congregation-instruction-text-1");
+        const DOMCongInstText_2 = $("#congregation-instruction-text-2");
+        const DOMSlideHeaderText_1 = $("#slide-header-text-1");
+        const DOMSlideHeaderText_2 = $("#slide-header-text-2");
+        let useSecondDOMGroup = DOMMainText_2.css("display") == "none";
+        
+        let DOMMainText = DOMMainText_1;
+        let DOMCongInstText = DOMCongInstText_1;
+        let DOMSlideHeaderText = DOMSlideHeaderText_1;
+        if (useSecondDOMGroup) {
+          DOMMainText = DOMMainText_2;
+          DOMCongInstText = DOMCongInstText_2;
+          DOMSlideHeaderText = DOMSlideHeaderText_2;
+        }
+
         // Get content
-        let DOMMainText = $("#main-text");
         let mainText = $("#interim")[0].innerHTML;
         mainText = mainText.trim()
         
-        // Set HTML values
+        // Hide and show main-text's lower third
+        let lowerThirdFadeInDuration = OpenLP.useAnimation ? LOWER_THIRD_FADE_IN_DURATION : 0;
+        let lowerThirdFadeOutDuration = OpenLP.useAnimation ? LOWER_THIRD_FADE_OUT_DURATION : 0;
         if (mainText == "") {
-          $("#slide-main").addClass("invisible")
+          $("#slide-main").fadeOut(lowerThirdFadeInDuration)
         } else {
-          $("#slide-main").removeClass("invisible")
+          $("#slide-main").fadeIn(lowerThirdFadeOutDuration)
         }
-        $("#congregation-instruction").html(congregationInstructionText);
-        $("#slide-header-text").html(slideHeaderText);
+
+        // Set HTML values
+        DOMCongInstText.html(congregationInstructionText);
+        DOMSlideHeaderText.html(slideHeaderText);
         if (mainText != BLANK) {
           DOMMainText.html(mainText);
         } else {
@@ -111,9 +149,27 @@ window.OpenLP = {
         }
         // ---------- END OF ADJUSTMENTS ----------
 
+        // Switch the text-container elements visibility for transition animation
+        OpenLP.animateDOMTextTransition(DOMMainText_1, DOMMainText_2, useSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMCongInstText_1, DOMCongInstText_2, useSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMSlideHeaderText_1, DOMSlideHeaderText_2, useSecondDOMGroup);
+
         // const options = { year: 'numeric', month: 'long', day: '2-digit' };
         // const date = new Date()
         // $("#slide-date").html(date.toLocaleDateString("id-id", options));
+      }
+    );
+
+    $.getJSON(
+      "/api/service/list",
+      function (data, status) {
+        for (idx in data.results.items) {
+          idx = parseInt(idx, 10);
+          if (data.results.items[idx]["selected"]) {
+            window.OpenLP.useAnimation = !data.results.items[idx].notes.includes(OPTION_NO_ANIMATION);
+            break;
+          }
+        }
       }
     );
   },
@@ -135,5 +191,6 @@ window.OpenLP = {
 }
 
 $.ajaxSetup({ cache: false });
-setInterval("OpenLP.pollServer();", 500);
+OpenLP.useAnimation = true;
+setInterval("OpenLP.pollServer();", 100);
 OpenLP.pollServer();
