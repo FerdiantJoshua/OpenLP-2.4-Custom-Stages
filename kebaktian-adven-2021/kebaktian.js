@@ -72,5 +72,5 @@ window.OpenLP = {
 }
 
 $.ajaxSetup({ cache: false });
-setInterval("OpenLP.pollServer();", 500);
+setInterval("OpenLP.pollServer();", 100);
 OpenLP.pollServer();
