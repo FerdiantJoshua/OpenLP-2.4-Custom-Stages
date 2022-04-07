@@ -15,9 +15,7 @@ const defaultCongregationInstructionText = "";
 // const defaultNotesText = "Kebaktian";
 
 const OPTION_NO_ANIMATION = "no animation";
-const TEXT_TRANSITION_DURATION = 300;
-const LOWER_THIRD_FADE_IN_DURATION = 200;
-const LOWER_THIRD_FADE_OUT_DURATION = 350;
+const TRANSITION_DURATION = 300;
 
 function removeDOMWithPrevOrNextBr(DOMElement) {
   const prev = DOMElement.prev()
@@ -34,7 +32,7 @@ function removeDOMWithPrevOrNextBr(DOMElement) {
 window.OpenLP = {
   animateDOMTextTransition: function (DOMText_1, DOMText_2, useSecondDOM) {
     // Don't use animation if they have same text
-    let transitionDuration = DOMText_1.text() == DOMText_2.text() || !OpenLP.useAnimation ? 0 : TEXT_TRANSITION_DURATION;
+    let transitionDuration = DOMText_1.text() == DOMText_2.text() || !OpenLP.useAnimation ? 0 : OpenLP.transitionDuration;
     if (useSecondDOM) {
       DOMText_1.fadeOut(transitionDuration);
       DOMText_2.fadeIn(transitionDuration);
@@ -99,8 +97,8 @@ window.OpenLP = {
         mainText = mainText.trim()
         
         // Hide and show main-text's lower third
-        let lowerThirdFadeInDuration = OpenLP.useAnimation ? LOWER_THIRD_FADE_IN_DURATION : 0;
-        let lowerThirdFadeOutDuration = OpenLP.useAnimation ? LOWER_THIRD_FADE_OUT_DURATION : 0;
+        let lowerThirdFadeInDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 2: 0;
+        let lowerThirdFadeOutDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 12 : 0;
         if (mainText == "") {
           $("#slide-main").fadeOut(lowerThirdFadeInDuration)
         } else {
@@ -145,7 +143,7 @@ window.OpenLP = {
         if (nonBrElements != 0 && nonBrElements == nonBrSmallElements) {
           DOMMainText.css("line-height", "90%")
         } else {
-          DOMMainText.css("line-height", "")
+          DOMMainText.css("line-height", "125%")
         }
         // ---------- END OF ADJUSTMENTS ----------
 
@@ -166,7 +164,13 @@ window.OpenLP = {
         for (idx in data.results.items) {
           idx = parseInt(idx, 10);
           if (data.results.items[idx]["selected"]) {
-            window.OpenLP.useAnimation = !data.results.items[idx].notes.includes(OPTION_NO_ANIMATION);
+            let notesText = data.results.items[idx].notes;
+            if (isNaN(notesText)) {
+              window.OpenLP.useAnimation = !notesText.includes(OPTION_NO_ANIMATION);
+            } else {
+              let parsedInt = Number(notesText);
+              OpenLP.transitionDuration = parsedInt != 0 ? parsedInt : TRANSITION_DURATION;
+            }
             break;
           }
         }
