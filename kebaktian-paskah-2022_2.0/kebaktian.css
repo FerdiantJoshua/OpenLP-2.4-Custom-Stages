@@ -1,0 +1,166 @@
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('/stage/fonts/Comfortaa-VariableFont_wght.ttf');
+}
+
+body {
+    /* background-color: rgb(111, 111, 111); */
+    /* background-color: rgba(0, 0, 0, 0); */
+    font-family:'Comfortaa';
+    font-size: 3.2vh;
+    font-weight: 700;
+    color: white;
+    overflow: hidden;
+}
+
+#middle {
+    margin-top: 81.4vh;
+    width: 100%;
+    float: left;
+}
+#content {
+    width: 100%;
+    display: flex;
+}
+#lower-third-header {
+    padding: 2vh 0vh;
+    display: flex;
+}
+
+#purple-padding {
+    min-width: 10.5vh;
+    background-color: rgb(99, 6, 95);
+}
+
+#black-padding {
+    padding: 0vh 1vh;
+    background-color: rgb(37, 37, 37);
+}
+#header-container {
+    height: 10.6vh;
+    width: 19.7vw;
+}
+
+#slide-header {
+    position: relative;
+    height: 7.3vh;
+    min-width: 19.7vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(13, 1, 75);
+}
+#slide-header .slide-header-text {
+    position: absolute;
+    font-size: 3vh;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#congregation-instruction {
+    position: relative;
+    height: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+#congregation-instruction .congregation-instruction-text {
+    position: absolute;
+    font-size: 2.2vh;
+    text-transform: uppercase;
+    color: rgb(51, 51, 51);
+}
+
+#slide-main {
+    position: relative;
+    width: 100%;
+    height: 14.6vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(37, 37, 37);
+    background-color: white;
+    border-radius: 0.4em;
+}
+#slide-main .main-text {
+    position: absolute;
+    font-size: 4.65vh;
+    text-align: center;
+}
+#slide-main #white-rounded-box {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: -0.8vw;
+    border-radius: 0.4em;
+    background-color: white;
+    z-index: -100;
+}
+
+#congregation-instruction-text-2, #slide-header-text-2, #main-text-2 {
+    display: none;
+}
+/* #slide-date {
+    margin-top: 0.7vh;
+    height: 1.5vh;
+    font-size: 1.3vh;
+    line-height: 90%;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+} */
+
+#right {
+    margin-top: 1.5vh;
+    width: 16vh;
+    float: right;
+}
+#notes {
+    font-size: 1.45vh;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+}
+
+#slide-image {
+    position: absolute;
+    top: 0px;
+    vertical-align: middle;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -1;
+    display: block;
+}
+
+#interim {
+    display: none;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.small {
+    font-size: smaller;
+}
+
+.large {
+    font-size: larger;
+}
+
+.outline {
+    color: white;
+    -webkit-text-fill-color: black; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: white;
+}
+
+.shadow-white {
+    text-shadow: 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white, 0 0 2px white;
+  }
+
+.shadow-black {
+    text-shadow: 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37);
+}
