@@ -236,5 +236,5 @@ window.OpenLP = {
 
 $.ajaxSetup({ cache: false });
 OpenLP.useAnimation = true;
-setInterval("OpenLP.pollServer();", 100);
+setInterval("OpenLP.pollServer();", 200);
 OpenLP.pollServer();

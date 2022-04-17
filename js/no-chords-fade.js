@@ -301,7 +301,7 @@ window.OpenLP = {
   }
 }
 $.ajaxSetup({ cache: false });
-setInterval("OpenLP.pollServer();", 100);
+setInterval("OpenLP.pollServer();", 200);
 OpenLP.pollServer();
 $(document).ready(function() {
 	$('#transposeup').click(function(e) {
