@@ -5,6 +5,7 @@ const JEMAAT_BERDIRI = "Jemaat Berdiri";
 const BLANK = "((blank))";
 const BUMPER = "((bumper))";
 const NOT_ANGKA = "((not angka))";
+const NOT_ANGKA_FULL = "((not angka full))";
 
 const RGB_GREEN = "rgb(0, 128, 0)";
 const RGB_BLUE = "rgb(0, 0, 255)";
@@ -88,6 +89,8 @@ window.OpenLP = {
         congregationInstructionText = congregationInstructionText.trim();
 
         // Juggle the use of 2 text-container elements for text transition animation
+        const DOMSlideFullImage_1 = $("#slide-full-image-1");
+        const DOMSlideFullImage_2 = $("#slide-full-image-2");
         const DOMMainText_1 = $("#main-text-1");
         const DOMMainText_2 = $("#main-text-2");
         const DOMMainImage_1 = $("#main-image-1");
@@ -96,13 +99,15 @@ window.OpenLP = {
         const DOMCongInstText_2 = $("#congregation-instruction-text-2");
         const DOMSlideHeaderText_1 = $("#slide-header-text-1");
         const DOMSlideHeaderText_2 = $("#slide-header-text-2");
-        let useSecondDOMGroup = DOMMainText_2.css("display") == "none";
+        let isUsingSecondDOMGroup = DOMMainText_2.css("display") == "none";
         
+        let DOMSlideFullImage = DOMSlideFullImage_1;
         let DOMMainText = DOMMainText_1;
         let DOMMainImage = DOMMainImage_1;
         let DOMCongInstText = DOMCongInstText_1;
         let DOMSlideHeaderText = DOMSlideHeaderText_1;
-        if (useSecondDOMGroup) {
+        if (isUsingSecondDOMGroup) {
+          DOMSlideFullImage = DOMSlideFullImage_2;
           DOMMainText = DOMMainText_2;
           DOMMainImage = DOMMainImage_2;
           DOMCongInstText = DOMCongInstText_2;
@@ -116,38 +121,52 @@ window.OpenLP = {
         // Hide and show main-text's lower third
         let lowerThirdFadeInDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 2: 0;
         let lowerThirdFadeOutDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 12 : 0;
-        if (mainText == "") {
+        if (mainText == "" || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA_FULL)) {
           $("#slide-main").fadeOut(lowerThirdFadeInDuration)
         } else {
           $("#slide-main").fadeIn(lowerThirdFadeOutDuration)
         }
 
-        // Handle bumpers and 'not angka's
+        // ---------- HANDLE BUMPERS AND "NOT_ANGKA"S ----------
         const DOMVideo = $("#slide-video");
         const DOMBlackScreen = $("#slide-black");
+        const DOMWhiteScreen = $("#slide-white");
+        // Video play/stop, black & white screen management
         if (mainText.startsWith(BUMPER)) {
           DOMBlackScreen.fadeIn(TRANSITION_DURATION);
           DOMVideo.fadeIn(TRANSITION_DURATION/2);
           DOMVideo[0].setAttribute("src", "/stage/videos/" + mainText.slice(BUMPER.length+1));
           DOMVideo[0].load();
           DOMVideo[0].play();
+        } else if (mainText.startsWith(NOT_ANGKA_FULL)) {
+          DOMWhiteScreen.fadeIn(TRANSITION_DURATION);
         } else {
           DOMBlackScreen.fadeOut(0);
+          DOMWhiteScreen.fadeOut(0);
           DOMVideo.fadeOut(TRANSITION_DURATION);
           DOMVideo[0].pause();
           DOMVideo[0].removeAttribute("src");
         }
         
+        // Set image src for "Not_Angka"
         if (mainText.startsWith(NOT_ANGKA)) {
           DOMMainImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA.length+1);
         } else {
           DOMMainImage[0].src = "";
         }
+        
+        if (mainText.startsWith(NOT_ANGKA_FULL)) {
+          DOMSlideFullImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA_FULL.length+1);
+        } else {
+          DOMSlideFullImage[0].src = "";
+        }
+        // ---------- END OF HANDLE BUMPERS AND "NOT_ANGKA"S ----------
+
 
         // Set HTML values
         DOMCongInstText.html(congregationInstructionText);
         DOMSlideHeaderText.html(slideHeaderText);
-        if (mainText.startsWith(BLANK) || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA)) {
+        if (mainText.startsWith(BLANK) || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA) || mainText.startsWith(NOT_ANGKA_FULL)) {
           DOMMainText.html("");
         } else {
           DOMMainText.html(mainText);
@@ -187,10 +206,11 @@ window.OpenLP = {
         // ---------- END OF ADJUSTMENTS ----------
 
         // Switch the text-container elements visibility for transition animation
-        OpenLP.animateDOMTextTransition(DOMMainText_1, DOMMainText_2, useSecondDOMGroup);
-        OpenLP.animateDOMTextTransition(DOMCongInstText_1, DOMCongInstText_2, useSecondDOMGroup);
-        OpenLP.animateDOMTextTransition(DOMSlideHeaderText_1, DOMSlideHeaderText_2, useSecondDOMGroup);
-        OpenLP.animateDOMImageTransition(DOMMainImage_1, DOMMainImage_2, useSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMMainText_1, DOMMainText_2, isUsingSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMCongInstText_1, DOMCongInstText_2, isUsingSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMSlideHeaderText_1, DOMSlideHeaderText_2, isUsingSecondDOMGroup);
+        OpenLP.animateDOMImageTransition(DOMSlideFullImage_1, DOMSlideFullImage_2, isUsingSecondDOMGroup);
+        OpenLP.animateDOMImageTransition(DOMMainImage_1, DOMMainImage_2, isUsingSecondDOMGroup);
 
         // const options = { year: 'numeric', month: 'long', day: '2-digit' };
         // const date = new Date()
