@@ -45,6 +45,7 @@ body {
     text-shadow: 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37);
     text-align: center;
     text-transform: uppercase;
+    padding: 0vw 1vw;
 }
 #green-parallelogram-img {
     position: absolute;
@@ -92,7 +93,7 @@ body {
 }
 #slide-main .main-image {
     position: absolute;
-    width: 95%;
+    width: 96%;
 }
 #slide-main .white-parallelogram {
     width: 100%;
