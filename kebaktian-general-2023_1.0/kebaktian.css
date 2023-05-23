@@ -71,7 +71,7 @@ body {
 #congregation-instruction {
     position: relative;
     height: 4.2vh;
-    margin: 0vw 13.5vw 0vw 1vw;
+    margin: 0vw 13.5vw 0vw -3vw;
     display: flex;
     align-items: center;
     justify-content: center;
