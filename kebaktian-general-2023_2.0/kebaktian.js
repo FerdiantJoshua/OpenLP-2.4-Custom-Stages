@@ -35,42 +35,41 @@ function removeDOMWithPrevOrNextBr(DOMElement) {
 }
 
 window.OpenLP = {
-  animateDOMTextTransition: function (DOMText_1, DOMText_2, useSecondDOM) {
+  animateDOMTextTransition: function (DOMText_1, DOMText_2, useSecondDOM, differentiateAnimation = false) {
+    let doms = [DOMText_1, DOMText_2];
+    let [hiddenIdx, shownIdx] = useSecondDOM ? [0,1] : [1,0]
     // Don't use animation if they have same text
     let transitionDuration = DOMText_1.text() == DOMText_2.text() || !OpenLP.useAnimation ? 0 : OpenLP.transitionDuration;
-    if (useSecondDOM) {
-      /* we need this so we can do animation without DOM movement */
-      DOMText_1.css("position", "absolute");
-      DOMText_2.css("position", "");
-      DOMText_1.fadeOut(transitionDuration);
-      DOMText_2.fadeIn(transitionDuration);
+
+    /* we need this so we can do animation without DOM movement */
+    if (differentiateAnimation && doms[hiddenIdx].text().length > doms[shownIdx].text().length) {
+      doms[hiddenIdx].css("position", "");
+      doms[shownIdx].css("position", "absolute");
+      doms[hiddenIdx].fadeOut(transitionDuration, () => {
+        doms[hiddenIdx].css("position", "absolute");
+      });
+      doms[shownIdx].fadeIn(transitionDuration, () => {
+        doms[shownIdx].css("position", "");
+      });
     } else {
-      /* we need this so we can do animation without DOM movement */
-      DOMText_1.css("position", "");
-      DOMText_2.css("position", "absolute");
-      DOMText_1.fadeIn(transitionDuration);
-      DOMText_2.fadeOut(transitionDuration);
+      doms[hiddenIdx].css("position", "absolute");
+      doms[shownIdx].css("position", "");
+      doms[hiddenIdx].fadeOut(transitionDuration);
+      doms[shownIdx].fadeIn(transitionDuration);
     }
   },
   animateDOMImageTransition: function (DOMImage_1, DOMImage_2, useSecondDOM) {
+    let doms = [DOMImage_1, DOMImage_2];
+    let [hiddenIdx, shownIdx] = useSecondDOM ? [0,1] : [1,0]
     // Don't use animation if they have same image source
     let transitionDuration = DOMImage_1[0].src == DOMImage_2[0].src || !OpenLP.useAnimation ? 0 : OpenLP.transitionDuration;
-    if (useSecondDOM) {
-      /* we need this so we can do animation without DOM movement */
-      DOMImage_1.css("position", "absolute");
-      DOMImage_2.css("position", "");
-      DOMImage_1.fadeOut(transitionDuration);
-      if (DOMImage_2[0].src) {
-        DOMImage_2.fadeIn(transitionDuration);
-      }
-    } else {
-      /* we need this so we can do animation without DOM movement */
-      DOMImage_1.css("position", "");
-      DOMImage_2.css("position", "absolute");
-      if (DOMImage_1[0].src) {
-        DOMImage_1.fadeIn(transitionDuration);
-      }
-      DOMImage_2.fadeOut(transitionDuration);
+    
+    /* we need this so we can do animation without DOM movement */
+    doms[hiddenIdx].css("position", "absolute");
+    doms[shownIdx].css("position", "");
+    doms[hiddenIdx].fadeOut(transitionDuration);
+    if (doms[shownIdx][0].src) {
+      doms[shownIdx].fadeIn(transitionDuration);
     }
   },
 
@@ -239,7 +238,6 @@ window.OpenLP = {
         let nonBrElements = 0;
         let nonBrSmallElements = 0;
         for (element of DOMMainText.contents()) {
-          console.log(element);
           if (element.tagName != "BR") {
             nonBrElements += 1
             // if (element.className == "small") {
@@ -249,18 +247,16 @@ window.OpenLP = {
           }
         }
         if (nonBrElements != 0 && nonBrElements == nonBrSmallElements) {
-          console.log('small');
-          DOMMainText.css("line-height", "90%")
+          DOMMainText.css("line-height", "75%")
         } else {
-          console.log('NOT small');
-          DOMMainText.css("line-height", "125%")
+          DOMMainText.css("line-height", "100%")
         }
         // ---------- END OF ADJUSTMENTS ----------
 
         // Switch the text-container elements visibility for transition animation
         OpenLP.animateDOMTextTransition(DOMMainText_1, DOMMainText_2, isUsingSecondDOMGroup);
         OpenLP.animateDOMTextTransition(DOMCongInstText_1, DOMCongInstText_2, isUsingSecondDOMGroup);
-        OpenLP.animateDOMTextTransition(DOMSlideHeaderText_1, DOMSlideHeaderText_2, isUsingSecondDOMGroup);
+        OpenLP.animateDOMTextTransition(DOMSlideHeaderText_1, DOMSlideHeaderText_2, isUsingSecondDOMGroup, true);
         OpenLP.animateDOMImageTransition(DOMSlideFullImage_1, DOMSlideFullImage_2, isUsingSecondDOMGroup);
         OpenLP.animateDOMImageTransition(DOMMainImage_1, DOMMainImage_2, isUsingSecondDOMGroup);
 
