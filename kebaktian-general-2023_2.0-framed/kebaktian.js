@@ -60,6 +60,11 @@ window.OpenLP = {
       doms[hiddenIdx].fadeOut(transitionDuration);
       doms[shownIdx].fadeIn(transitionDuration);
     }
+
+    /* we need this so when image & text are inside same div, the text doesn't take up space */
+    if (doms[shownIdx].text().length == 0) {
+      doms[shownIdx].css("position", "absolute");
+    }
   },
   animateDOMImageTransition: function (DOMImage_1, DOMImage_2, useSecondDOM) {
     let doms = [DOMImage_1, DOMImage_2];
@@ -95,19 +100,18 @@ window.OpenLP = {
 
         // Get congregation instruction
         let DOMCongregationInstructionTexts = $("#interim").find(".congregation-instruction-texts")
-        let congregationInstructionText = defaultCongregationInstructionText
+        let congregationInstructionText = [defaultCongregationInstructionText]
         if (DOMCongregationInstructionTexts.length > 0) {
-          congregationInstructionText = DOMCongregationInstructionTexts[0].innerHTML;
+          congregationInstructionText = Array.from(DOMCongregationInstructionTexts, (el) => el.innerHTML);
           if (congregationInstructionText.includes(DUDUK)) {
-            congregationInstructionText = JEMAAT_DUDUK
+            congregationInstructionText = [JEMAAT_DUDUK];
           } else if (congregationInstructionText.includes(BERDIRI)) {
-            congregationInstructionText = JEMAAT_BERDIRI
+            congregationInstructionText = [JEMAAT_BERDIRI];
           }
 
           removeDOMWithPrevOrNextBr(DOMCongregationInstructionTexts);
         }
-        // congregationInstructionText = congregationInstructionText.trim();
-        congregationInstructionText = ""; // we disable congregation instruction on this stage
+        congregationInstructionText = congregationInstructionText.join(' ').trim();
 
         // Juggle the use of 2 text-container elements for text transition animation
         const DOMSlideFullImage_1 = $("#slide-full-image-1");
@@ -142,10 +146,10 @@ window.OpenLP = {
         // Hide and show main-text's lower third
         let lowerThirdFadeInDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 2: 0;
         let lowerThirdFadeOutDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 12 : 0;
-        if (mainText == "" || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA_FULL)) {
-          $("#slide-main").fadeOut(lowerThirdFadeInDuration)
+        if (congregationInstructionText == "" || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA_FULL)) {
+          $("#congregation-instruction").fadeOut(lowerThirdFadeInDuration)
         } else {
-          $("#slide-main").fadeIn(lowerThirdFadeOutDuration)
+          $("#congregation-instruction").fadeIn(lowerThirdFadeOutDuration)
         }
 
         // ---------- HANDLE BUMPERS AND "NOT_ANGKA"S ----------
@@ -216,24 +220,27 @@ window.OpenLP = {
 
         // ---------- ADJUSTMENTS ----------
         // Outlines
+        // let spans = DOMMainText.find("span");
         let spans = DOMMainText.find("span");
         spans.each(function() {
           let textColor = $(this).css("-webkit-text-fill-color")
           switch(textColor) {
-            // case RGB_GREEN:
-            // case RGB_DARK_GREEN:
-            // case RGB_PURPLE:
-            // case RGB_BLACK:
-            //   $(this).addClass("shadow-white");
-            //   break;
-            case RGB_YELLOW:
-            case RGB_PINK:
-            case RGB_ORANGE:
-            case RGB_WHITE:
-              $(this).addClass("shadow-black");
+            case RGB_RED:
+            case RGB_GREEN:
+            case RGB_DARK_GREEN:
+            case RGB_PURPLE:
+            case RGB_BLACK:
+              $(this).addClass("shadow-white");
+              break;
+            // case RGB_YELLOW:
+            // case RGB_PINK:
+            // case RGB_ORANGE:
+            // case RGB_WHITE:
+            //   $(this).addClass("shadow-black");
               break;
             case RGB_BLUE:
               $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
+              $(this).addClass("shadow-white");
               break;
           }
         });

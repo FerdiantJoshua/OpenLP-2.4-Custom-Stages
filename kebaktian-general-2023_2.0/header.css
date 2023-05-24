@@ -1,0 +1,65 @@
+/* Logo & Header */
+#right {
+    position: fixed;
+    top: 0;
+    right: 0;
+    min-width: 21vw;
+    max-width: 23vw;
+    z-index: 10;
+}
+#header-container {
+    margin-top: 4.2vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    flex-direction: column;
+    font-family: 'Bebas Neue';
+    /* text-shadow: 1px 1px 1px rgb(37, 37, 37); */
+}
+#logo-and-church-name-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#logo-church {
+    max-height: 8vh;
+    padding: 8px;
+    background-color: rgb(37, 37, 37);
+    z-index: 11;
+}
+#church-name {
+    padding: 0vw 0.25vw;
+    flex-grow: 1; /* we need this to let the church name width strecth to remaining space, but the logo church remain static*/
+
+    color: rgb(37, 37, 37);
+
+    letter-spacing: normal;
+    text-transform: uppercase;
+    text-align: center;
+
+    background-color: white;
+}
+/* HEADER */
+#slide-header {
+    position: relative;
+    margin-top: 0.6vh;
+    min-height: 4vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(2, 37, 152);
+}
+#slide-header .slide-header-text {
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    padding: 0vw 1vw;
+}
+/* #notes {
+    font-size: 1.45vh;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+} */

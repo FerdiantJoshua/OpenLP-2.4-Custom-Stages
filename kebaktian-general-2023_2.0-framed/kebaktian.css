@@ -8,6 +8,11 @@
     src: url('/stage/fonts/BebasNeue-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'Arial Rounded MT Bold';
+    src: url('/stage/fonts/ArialRoundedMTBold.ttf');
+}
+
 body {
     /* background-color: rgb(111, 111, 111); */
     /* background-color: rgba(0, 0, 0, 0); */
@@ -21,61 +26,75 @@ body {
 
 #middle {
     position: fixed;
-    bottom: 3vh;
-    width: 100%;
+    top: 20vh;
+    width: 100vw;
+    height: 61vh;
 }
 #content {
-    width: 100%;
+    width: 98vw;
+    height: 100%;
+    padding-left: 1vw;
+    padding-right: 1vw;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+}
+
+#middle-low {
+    position: fixed;
+    bottom: 5vh;
+    width: 100%;
+    max-height: 14vh;
 }
 
 /* CONGREGATION INSTRUCTION */
 #congregation-instruction {
     position: relative;
-    width: 100vw;
-    height: 4.2vh;
-    margin-left: 2vw;
+    width: 95vw;
+    height: 9vh;
+    padding-left: 5vw;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    background-image: linear-gradient(to right, rgb(117, 117, 117, 1.0), rgb(117, 117, 117, 1.0), rgb(117, 117, 117, 0.4));
     z-index: 11
 }
 #congregation-instruction .congregation-instruction-text {
     position: absolute;
     text-transform: uppercase;
-    color: rgb(51, 51, 51);
+    font-size: 6.8vh;
+    font-family: 'Bebas Neue';
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 2px 2px rgb(37, 37, 37);
 }
 
 /* MAIN TEXT */
 #slide-main {
-    /* margin: 1vw 1vh;
-    padding: 1vw 1vh;
-
+    width: 49.7vw;
+    height: 100%;
     /* we need this flex to align its position:absolute children (required for animation without DOM movement */
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: center;
 
+    background-color: rgb(2, 21, 78, 0.5);
+    font-family: 'Arial Rounded MT Bold';
     text-shadow: 2px 2px 2px rgb(37, 37, 37);
 }
 #slide-main .main-text {
+    width: 49.7vw;
     /* we need this flex to align its p children */
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 
-    /* padding: 0.5vw 2vw; */
-    font-size: 6.5vh;
-    /* text-align: center; */
-    /* background-color: rgba(255, 255, 255, 0.9); */
+    font-size: 9.5vh;
+    font-weight: bold;
     z-index: 11; /* equals to congregation instructions' */
 }
 #slide-main .main-image {
-    width: 90%;
-    padding: 0.5vw 2vw;
-    background-color: rgba(255, 255, 255, 0.9);
+    width: 49.7vw;
+    height: 100%;
     z-index: 11; /* equals to congregation instructions' */
 }
 #slide-main .main-text p {
@@ -83,11 +102,16 @@ body {
     padding: 0.5vw 2vw;
     margin: 0;
     text-align: center;
-    background-color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255);
+}
+
+#content-transparent-hole {
+    width: 47.7vw;
+    background-color: rgba(0, 0, 0);
 }
 
 /* DEFAULT CLASSES, TO BE LATER MODIFIED BY JAVASCRIPT */
-#congregation-instruction-text-2, #slide-header-text-2, #main-text-2, .main-image {
+.congregation-instruction-text, .slide-header-text, .main-text, .main-image {
     display: none;
 }
 /* #slide-date {
@@ -110,7 +134,7 @@ body {
     background-repeat: no-repeat;
     z-index: -100;
     display: block;
-    display: none;
+    /* display: none; */
 }
 /* BUMPER */
 #slide-video {
