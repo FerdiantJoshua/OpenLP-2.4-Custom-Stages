@@ -1,0 +1,37 @@
+/* MAIN TEXT */
+#slide-main {
+    /* we need this flex to align its position:absolute children (required for animation without DOM movement */
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+#slide-main .main-text {
+    /* we need this flex to align its p children */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    color: rgba(255, 255, 255);
+    font-family: 'Arial Rounded MT';
+    font-weight: bold;
+    font-size: 5.5vh;
+    text-transform: uppercase;
+    /* letter-spacing: -0.1rem; */
+    /* text-shadow: 2px 2px 2px rgb(255, 255, 255); */
+
+    z-index: 11; /* equals to congregation instructions' */
+}
+#slide-main .main-image {
+    width: 90%;
+    padding: 0.5vw 2vw;
+    background-color: rgba(56, 56, 56, 0.9);
+    z-index: 11; /* equals to congregation instructions' */
+}
+#slide-main .main-text p {
+    width: fit-content;
+    padding: 0.5vw 2vw;
+    margin: 0;
+    text-align: center;
+    background-color: rgba(56, 56, 56);
+}

@@ -60,11 +60,6 @@ window.OpenLP = {
       doms[hiddenIdx].fadeOut(transitionDuration);
       doms[shownIdx].fadeIn(transitionDuration);
     }
-
-    /* we need this so when image & text are inside same div, the text doesn't take up space */
-    if (doms[shownIdx].text().length == 0) {
-      doms[shownIdx].css("position", "absolute");
-    }
   },
   animateDOMImageTransition: function (DOMImage_1, DOMImage_2, useSecondDOM) {
     let doms = [DOMImage_1, DOMImage_2];
@@ -197,25 +192,25 @@ window.OpenLP = {
         } else {
           DOMMainText.html(mainText);
 
-          // // Wrap all elements with <p> (for background-color) & remove <br/>
-          // let shouldWrapWithP = true;
-          // let wrapper;
-          // let i = 0;
-          // for (node of DOMMainText.contents()) {
-          //   if (node.nodeName == "BR") {
-          //     node.remove();
-          //     shouldWrapWithP = true;
-          //     continue;
-          //   }
-          //   if (shouldWrapWithP) {
-          //     wrapper = document.createElement("p");
-          //     node.after(wrapper);
-          //     wrapper.appendChild(node);
-          //     shouldWrapWithP = false;
-          //   } else {
-          //     wrapper.appendChild(node);
-          //   }
-          // }
+          // Wrap all elements with <p> (for background-color) & remove <br/>
+          let shouldWrapWithP = true;
+          let wrapper;
+          let i = 0;
+          for (node of DOMMainText.contents()) {
+            if (node.nodeName == "BR") {
+              node.remove();
+              shouldWrapWithP = true;
+              continue;
+            }
+            if (shouldWrapWithP) {
+              wrapper = document.createElement("p");
+              node.after(wrapper);
+              wrapper.appendChild(node);
+              shouldWrapWithP = false;
+            } else {
+              wrapper.appendChild(node);
+            }
+          }
         }
         
 
@@ -225,12 +220,12 @@ window.OpenLP = {
         spans.each(function() {
           let textColor = $(this).css("-webkit-text-fill-color")
           switch(textColor) {
-            case RGB_GREEN:
-            case RGB_DARK_GREEN:
-            case RGB_PURPLE:
-            case RGB_BLACK:
-              $(this).addClass("shadow-white");
-              break;
+            // case RGB_GREEN:
+            // case RGB_DARK_GREEN:
+            // case RGB_PURPLE:
+            // case RGB_BLACK:
+            //   $(this).addClass("shadow-white");
+            //   break;
             // case RGB_YELLOW:
             // case RGB_PINK:
             // case RGB_ORANGE:
@@ -239,26 +234,29 @@ window.OpenLP = {
             //   break;
             case RGB_BLUE:
               $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
+              // $(this).addClass("shadow-white");
               break;
           }
         });
 
         // Line-height on small styles (small texts should have narrower line-height)
+        
+        // TODO: remove the BR from naming as the BRs' are already removed anyway while setting DOMMainText.html(mainText);
         let nonBrElements = 0;
         let nonBrSmallElements = 0;
         for (element of DOMMainText.contents()) {
           if (element.tagName != "BR") {
             nonBrElements += 1
-            if (element.className == "small") {
-            // if (element.firstChild.className == "small") {
+            // if (element.className == "small") {
+            if (element.firstChild.className == "small") {
               nonBrSmallElements += 1
             }
           }
         }
         if (nonBrElements != 0 && nonBrElements == nonBrSmallElements) {
-          DOMMainText.css("line-height", "100%")
+          DOMMainText.css("line-height", "75%")
         } else {
-          DOMMainText.css("line-height", "125%")
+          DOMMainText.css("line-height", "100%")
         }
         // ---------- END OF ADJUSTMENTS ----------
 
