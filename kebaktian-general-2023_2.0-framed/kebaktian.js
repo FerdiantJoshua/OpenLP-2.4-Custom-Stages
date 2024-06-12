@@ -7,16 +7,23 @@ const BUMPER = "((bumper))";
 const NOT_ANGKA = "((not angka))";
 const NOT_ANGKA_FULL = "((not angka full))";
 
-const RGB_GREEN = "rgb(0, 128, 0)";
-const RGB_DARK_GREEN = "rgb(12, 66, 1)";
-const RGB_BLUE = "rgb(0, 0, 255)";
-const RGB_RED = "rgb(255, 0, 0)";
-const RGB_PINK = "rgb(255, 192, 203)";
-const RGB_ORANGE = "rgb(255, 165, 0)";
-const RGB_YELLOW = "rgb(255, 255, 0)";
-const RGB_PURPLE = "rgb(128, 0, 128)";
 const RGB_BLACK = "rgb(37, 37, 37)";
 const RGB_WHITE = "rgb(255, 255, 255)";
+const RGB_LIGHT_RED = "rgb(255, 42, 42)"; // #ff2a2a
+const RGB_RED = "rgb(255, 0, 0)";
+const RGB_LIGHT_BLUE = "rgb(152, 145, 255)"; // #9891ff
+const RGB_CYAN = "rgb(82, 215, 255)"; // #52d7ff
+const RGB_BLUE = "rgb(0, 0, 255)";
+const RGB_YELLOW = "rgb(255, 255, 0)";
+const RGB_LIGHT_GREEN = "rgb(43, 255, 0)"; // #2bff00
+const RGB_GREEN = "rgb(0, 128, 0)";
+const RGB_DARK_GREEN = "rgb(12, 66, 1)";
+const RGB_LIGHT_PINK = "rgb(255, 22, 205);"; // #ff16cd
+const RGB_PINK = "rgb(255, 192, 203)";
+const RGB_LIGHT_ORANGE = "rgb(255, 187, 63)"; // #ffbb3f
+const RGB_ORANGE = "rgb(255, 165, 0)";
+const RGB_LIGHT_PURPLE = "rgb(222, 141, 255)"; // #de8dff
+const RGB_PURPLE = "rgb(128, 0, 128)";
 
 const defaultSlideHeaderText = "Kebaktian Umum";
 const defaultCongregationInstructionText = "";
@@ -220,30 +227,30 @@ window.OpenLP = {
 
         // ---------- ADJUSTMENTS ----------
         // Outlines
+        // 
+        // Disabled for now, as the outline just worsen the final result
+        //
         // let spans = DOMMainText.find("span");
-        let spans = DOMMainText.find("span");
-        spans.each(function() {
-          let textColor = $(this).css("-webkit-text-fill-color")
-          switch(textColor) {
-            case RGB_RED:
-            case RGB_GREEN:
-            case RGB_DARK_GREEN:
-            case RGB_PURPLE:
-            case RGB_BLACK:
-              $(this).addClass("shadow-white");
-              break;
-            // case RGB_YELLOW:
-            // case RGB_PINK:
-            // case RGB_ORANGE:
-            // case RGB_WHITE:
-            //   $(this).addClass("shadow-black");
-              break;
-            case RGB_BLUE:
-              $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
-              $(this).addClass("shadow-white");
-              break;
-          }
-        });
+        // spans.each(function() {
+        //   let textColor = $(this).css("-webkit-text-fill-color")
+        //   switch(textColor) {
+        //     case RGB_GREEN:
+        //     case RGB_DARK_GREEN:
+        //     case RGB_PURPLE:
+        //     case RGB_BLACK:
+        //       $(this).addClass("shadow-white");
+        //       break;
+        //     case RGB_YELLOW:
+        //     case RGB_PINK:
+        //     case RGB_ORANGE:
+        //     case RGB_WHITE:
+        //       $(this).addClass("shadow-black");
+        //       break;
+        //     case RGB_BLUE:
+        //       $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
+        //       break;
+        //   }
+        // });
 
         // Line-height on small styles (small texts should have narrower line-height)
         
