@@ -9,6 +9,7 @@ const NOT_ANGKA_FULL = "((not angka full))";
 
 const RGB_GREEN = "rgb(0, 128, 0)";
 const RGB_BLUE = "rgb(0, 0, 255)";
+const RGB_PINK = "rgb(255, 192, 203)";
 const RGB_YELLOW = "rgb(255, 255, 0)";
 const RGB_BLACK = "rgb(0, 0, 0)";
 const RGB_WHITE = "rgb(255, 255, 255)";
@@ -180,7 +181,7 @@ window.OpenLP = {
           let textColor = $(this).css("-webkit-text-fill-color")
           if (textColor == RGB_GREEN || textColor == RGB_BLACK) {
             $(this).addClass("shadow-white");
-          } else if (textColor == RGB_YELLOW || textColor == RGB_WHITE) {
+          } else if (textColor == RGB_YELLOW || textColor == RGB_WHITE || textColor == RGB_PINK) {
             $(this).addClass("shadow-black");
           } else if (textColor == RGB_BLUE) {
             $(this).css("-webkit-text-fill-color", "rgb(0, 68, 255)")
