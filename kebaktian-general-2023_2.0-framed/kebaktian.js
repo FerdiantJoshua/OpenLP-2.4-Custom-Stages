@@ -163,6 +163,13 @@ window.OpenLP = {
         const DOMVideo = $("#slide-video");
         const DOMBlackScreen = $("#slide-black");
         const DOMWhiteScreen = $("#slide-white");
+        // Auto stop-&-fadeOut video on finish
+        DOMVideo.on("ended", () => {
+          DOMVideo.fadeOut(TRANSITION_DURATION);
+          DOMVideo[0].pause();
+          DOMVideo[0].removeAttribute("src");
+          DOMBlackScreen.fadeOut(0);
+        })
         // Video play/stop, black & white screen management
         if (mainText.startsWith(BUMPER)) {
           DOMBlackScreen.fadeIn(TRANSITION_DURATION);
@@ -182,12 +189,16 @@ window.OpenLP = {
         
         // Set image src for "Not_Angka"
         if (mainText.startsWith(NOT_ANGKA)) {
+          // remove then re-add, to eliminate the chance of old image shows up due to delay in fetching new image
+          DOMMainImage[0].removeAttribute("src");
           DOMMainImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA.length+1);
         } else {
           DOMMainImage[0].removeAttribute("src");
         }
         
         if (mainText.startsWith(NOT_ANGKA_FULL)) {
+          // remove then re-add, to eliminate the chance of old image shows up due to delay in fetching new image
+          DOMSlideFullImage[0].removeAttribute("src");
           DOMSlideFullImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA_FULL.length+1);
         } else {
           DOMSlideFullImage[0].removeAttribute("src");
