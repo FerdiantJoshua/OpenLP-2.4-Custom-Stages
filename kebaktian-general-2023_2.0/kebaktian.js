@@ -29,6 +29,7 @@ const defaultSlideHeaderText = "Kebaktian Umum";
 const defaultCongregationInstructionText = "";
 // const defaultNotesText = "Kebaktian";
 
+const POLL_INTERVAL = 200;
 const OPTION_NO_ANIMATION = "no animation";
 const TRANSITION_DURATION = 300;
 
@@ -44,12 +45,16 @@ function removeDOMWithPrevOrNextBr(DOMElement) {
   DOMElement.remove()
 }
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 window.OpenLP = {
   animateDOMTextTransition: function (DOMText_1, DOMText_2, useSecondDOM, differentiateAnimation = false) {
     let doms = [DOMText_1, DOMText_2];
     let [hiddenIdx, shownIdx] = useSecondDOM ? [0,1] : [1,0]
     // Don't use animation if they have same text
-    let transitionDuration = DOMText_1.text() == DOMText_2.text() || !OpenLP.useAnimation ? 0 : OpenLP.transitionDuration;
+    let transitionDuration = DOMText_1.text() == DOMText_2.text() ? 0 : OpenLP.transitionDuration;
 
     /* we need this so we can do animation without DOM movement */
     if (differentiateAnimation && doms[hiddenIdx].text().length > doms[shownIdx].text().length) {
@@ -73,18 +78,26 @@ window.OpenLP = {
       doms[shownIdx].css("position", "absolute");
     }
   },
-  animateDOMImageTransition: function (DOMImage_1, DOMImage_2, useSecondDOM) {
+  animateDOMImageTransition: async function (DOMImage_1, DOMImage_2, useSecondDOM) {
     let doms = [DOMImage_1, DOMImage_2];
     let [hiddenIdx, shownIdx] = useSecondDOM ? [0,1] : [1,0]
     // Don't use animation if they have same image source
-    let transitionDuration = DOMImage_1[0].src == DOMImage_2[0].src || !OpenLP.useAnimation ? 0 : OpenLP.transitionDuration;
+    let transitionDuration = DOMImage_1[0].src == DOMImage_2[0].src ? 0 : OpenLP.transitionDuration;
     
-    /* we need this so we can do animation without DOM movement */
-    doms[hiddenIdx].css("position", "absolute");
-    doms[shownIdx].css("position", "");
-    doms[hiddenIdx].fadeOut(transitionDuration);
-    if (doms[shownIdx][0].src) {
-      doms[shownIdx].fadeIn(transitionDuration);
+    // don't do transition when the target object no longers being selected, and
+    while (useSecondDOM == OpenLP.isUsingSecondDOMGroup) {
+      // only do transition after the image is fully loaded (or animate anyway when there's no image to show)
+      if (OpenLP.isImageLoadedArr[shownIdx] || !doms[shownIdx][0].src) {
+        /* we need this so we can do animation without DOM movement */
+        doms[hiddenIdx].css("position", "absolute");
+        doms[shownIdx].css("position", "");
+        doms[hiddenIdx].fadeOut(transitionDuration);
+        if (doms[shownIdx][0].src) {
+          doms[shownIdx].fadeIn(transitionDuration);
+        }
+        break;
+      }
+      await sleep(POLL_INTERVAL);
     }
   },
 
@@ -133,6 +146,8 @@ window.OpenLP = {
         const DOMSlideHeaderText_1 = $("#slide-header-text-1");
         const DOMSlideHeaderText_2 = $("#slide-header-text-2");
         let isUsingSecondDOMGroup = DOMMainText_2.css("display") == "none";
+        OpenLP.isUsingSecondDOMGroup = isUsingSecondDOMGroup;
+        let activeIdx = 0;
         
         let DOMSlideFullImage = DOMSlideFullImage_1;
         let DOMMainText = DOMMainText_1;
@@ -145,6 +160,7 @@ window.OpenLP = {
           DOMMainImage = DOMMainImage_2;
           DOMCongInstText = DOMCongInstText_2;
           DOMSlideHeaderText = DOMSlideHeaderText_2;
+          activeIdx = 1;
         }
 
         // Get content
@@ -152,13 +168,14 @@ window.OpenLP = {
         mainText = mainText.trim()
         
         // Hide and show main-text's lower third
-        let lowerThirdFadeInDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 2: 0;
-        let lowerThirdFadeOutDuration = OpenLP.useAnimation ? OpenLP.transitionDuration / 12 : 0;
+        let lowerThirdFadeInDuration = OpenLP.transitionDuration / 2;
+        let lowerThirdFadeOutDuration = OpenLP.transitionDuration / 12;
         if (mainText == "" || mainText.startsWith(BUMPER) || mainText.startsWith(NOT_ANGKA_FULL)) {
           $("#slide-main").fadeOut(lowerThirdFadeInDuration)
         } else {
           $("#slide-main").fadeIn(lowerThirdFadeOutDuration)
         }
+        const whiteScreenTransitionDuration = OpenLP.transitionDuration;
 
         // ---------- HANDLE BUMPERS AND "NOT_ANGKA"S ----------
         const DOMVideo = $("#slide-video");
@@ -179,10 +196,10 @@ window.OpenLP = {
           DOMVideo[0].load();
           DOMVideo[0].play();
         } else if (mainText.startsWith(NOT_ANGKA_FULL)) {
-          DOMWhiteScreen.fadeIn(TRANSITION_DURATION);
+          DOMWhiteScreen.fadeIn(whiteScreenTransitionDuration);
         } else {
           DOMBlackScreen.fadeOut(0);
-          DOMWhiteScreen.fadeOut(0);
+          DOMWhiteScreen.fadeOut(whiteScreenTransitionDuration);
           DOMVideo.fadeOut(TRANSITION_DURATION);
           DOMVideo[0].pause();
           DOMVideo[0].removeAttribute("src");
@@ -190,17 +207,15 @@ window.OpenLP = {
         
         // Set image src for "Not_Angka"
         if (mainText.startsWith(NOT_ANGKA)) {
-          // remove then re-add, to eliminate the chance of old image shows up due to delay in fetching new image
-          DOMMainImage[0].removeAttribute("src");
           DOMMainImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA.length+1);
+          OpenLP.isImageLoadedArr[activeIdx] = false;
         } else {
           DOMMainImage[0].removeAttribute("src");
         }
         
         if (mainText.startsWith(NOT_ANGKA_FULL)) {
-          // remove then re-add, to eliminate the chance of old image shows up due to delay in fetching new image
-          DOMSlideFullImage[0].removeAttribute("src");
           DOMSlideFullImage[0].src = "/stage/images/" + mainText.slice(NOT_ANGKA_FULL.length+1);
+          OpenLP.isImageLoadedArr[activeIdx] = false;
         } else {
           DOMSlideFullImage[0].removeAttribute("src");
         }
@@ -306,7 +321,9 @@ window.OpenLP = {
           if (data.results.items[idx]["selected"]) {
             let notesText = data.results.items[idx].notes;
             if (isNaN(notesText)) {
-              window.OpenLP.useAnimation = !notesText.includes(OPTION_NO_ANIMATION);
+              if (notesText.includes(OPTION_NO_ANIMATION)) {
+                OpenLP.transitionDuration = 0;
+              }
             } else {
               let parsedInt = Number(notesText);
               OpenLP.transitionDuration = parsedInt != 0 ? parsedInt : TRANSITION_DURATION;
@@ -335,6 +352,23 @@ window.OpenLP = {
 }
 
 $.ajaxSetup({ cache: false });
-OpenLP.useAnimation = true;
-setInterval("OpenLP.pollServer();", 200);
-OpenLP.pollServer();
+window.onload = function(){
+  // we need this global variable, to faciliate image transition, where transition is only applied after the image is fully loaded,
+  //   and the transition is only applied when its local_state_at_invocation_time==global_state (isUsingSecondDOMGroup == OpenLP.isUsingSecondDOMGroup)
+  OpenLP.isUsingSecondDOMGroup = OpenLP.isUsingSecondDOMGroup ?? false;
+  OpenLP.isImageLoadedArr = [false, false];
+  $("#slide-full-image-1")[0].addEventListener("load", function() {
+    OpenLP.isImageLoadedArr[0] = true
+  })
+  $("#slide-full-image-2")[0].addEventListener("load", function() {
+    OpenLP.isImageLoadedArr[1] = true
+  })
+  $("#main-image-1")[0].addEventListener("load", function() {
+    OpenLP.isImageLoadedArr[0] = true
+  })
+  $("#main-image-2")[0].addEventListener("load", function() {
+    OpenLP.isImageLoadedArr[1] = true
+  })
+  setInterval("OpenLP.pollServer();", POLL_INTERVAL);
+  OpenLP.pollServer();
+};
