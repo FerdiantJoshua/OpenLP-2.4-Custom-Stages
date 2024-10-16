@@ -1,0 +1,253 @@
+@font-face {
+    font-family: 'Comfortaa';
+    src: url('/stage/fonts/Comfortaa-VariableFont_wght.ttf');
+}
+
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('/stage/fonts/BebasNeue-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Arial Rounded MT';
+    src: url('/stage/fonts/ArialRoundedMT-Regular.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Arial Rounded MT';
+    src: url('/stage/fonts/ArialRoundedMT-Bold.ttf');
+    font-weight: bold;
+}
+
+body {
+    /* background-color: rgb(111, 111, 111); */
+    background-color: rgba(0, 0, 0);
+    margin: 0;
+    font-family: 'Tahoma';
+    font-size: 6vh;
+    /* font-weight: 700; */
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+}
+
+/* Header */
+#right {
+    position: absolute;
+    top: 1.5vh;
+    right: 1.5vw;
+    min-width: 21vw;
+    max-width: 45vw;
+    z-index: 11;
+}
+#slide-header {
+    position: relative;
+    min-height: 4vh;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+#slide-header .slide-header-text {
+    text-align: right;
+    text-transform: uppercase;
+    font-family: 'Arial Rounded MT';
+}
+
+/* CONGREGATION INSTRUCTION */
+#top {
+    position: absolute;
+    top: 1.5vh;
+    left: 1.5vw;
+    width: 45vw;
+    z-index: 11
+}
+#congregation-instruction {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+#congregation-instruction .congregation-instruction-text {
+    /* position: absolute; */
+    text-transform: uppercase;
+    font-family: 'Arial Rounded MT';
+    /* color: rgb(51, 51, 51); */
+}
+
+/* NEXT TEXTS */
+#bottom {
+    position: absolute;
+    width: 95vw;
+    bottom: 1.5vh;
+    right: 1.5vw;
+    z-index: 11
+}
+#next-item {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+#next-item .next-item-text {
+    /* position: absolute; */
+    text-transform: uppercase;
+    font-family: 'Arial Rounded MT';
+    text-align: right;
+    /* color: rgb(51, 51, 51); */
+}
+
+/* MAIN TEXT */
+#middle {
+    position: absolute;
+    top: 12vh;
+    width: 100%;
+    height: 76vh;
+}
+#content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+#slide-main {
+    height: 100%;
+    /* we need this flex to align its position:absolute children (required for animation without DOM movement */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#slide-main .main-text {
+    width: 96vw;
+    padding: 1vw 2vw;
+
+    text-align: center;
+    /* color: rgba(37, 37, 37); */
+
+    /* font-family: 'Arial Rounded MT'; */
+    font-weight: bold;
+    font-size: 8.5vh;
+    text-transform: uppercase;
+    /* letter-spacing: -0.1rem; */
+    /* text-shadow: 2px 2px 2px rgb(255, 255, 255); */
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: black;
+    
+    align-items: center;
+    justify-content: center;
+    
+    z-index: 11; /* equals to congregation instructions' */
+}
+#slide-main .main-image {
+    width: 90%;
+    padding: 0.5vw 2vw;
+    background-color: rgba(255, 255, 255);
+    z-index: 11; /* equals to congregation instructions' */
+}
+
+/* DEFAULT CLASSES, TO BE LATER MODIFIED BY JAVASCRIPT */
+#congregation-instruction-text-2, #slide-header-text-2, #next-item-text-2, #main-text-2, .main-image {
+    display: none;
+}
+/* #slide-date {
+    margin-top: 0.7vh;
+    height: 1.5vh;
+    font-size: 1.3vh;
+    line-height: 90%;
+    text-align: center;
+    font-weight: bold;
+    color: black;
+} */
+
+/* FOR DEV MODE, BACKGROUND, USUALLY FOR TEMPLATE IMAGES */
+#slide-background {
+    position: absolute;
+    top: 0px;
+    vertical-align: middle;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    z-index: -100;
+    display: block;
+    display: none;
+}
+/* BUMPER */
+#slide-video {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    z-index: 999;
+}
+#slide-black {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(37, 37, 37);
+    display: none;
+    z-index: 998;
+}
+/* NOT ANGKA FULL */
+#slide-image-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    width: 100vw;
+    height: 100vh;
+    /* TODO: reset this to default value: 5 (we set this high to overlay everything */
+    z-index: 15;
+}
+.slide-full-image {
+    max-width: 100%;
+    height: 100%;
+    /* max-width: 75%;
+    height: 95%; */
+}
+#slide-white {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    /* background-color: rgb(255, 255, 255); */
+    display: none;
+    z-index: 4;
+}
+
+/* ELEMENTS FOR HIDDEN PROCESSING */
+#interim {
+    display: none;
+}
+#interim-next {
+    display: none;
+}
+
+/* DISPLAY & FONTS CLASSES */
+.invisible {
+    visibility: hidden;
+}
+
+.small {
+    font-size: smaller;
+}
+
+.large {
+    font-size: larger;
+}
+
+.outline {
+    color: white;
+    -webkit-text-fill-color: black; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: white;
+}
+
+.shadow-white {
+    text-shadow: 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white, 0 0 4px white;
+  }
+
+.shadow-black {
+    text-shadow: 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37), 0 0 4px rgb(37, 37, 37);
+}
