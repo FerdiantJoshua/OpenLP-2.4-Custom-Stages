@@ -9,8 +9,15 @@
 }
 
 @font-face {
-    font-family: 'Arial Rounded MT Bold';
-    src: url('/stage/fonts/ArialRoundedMTBold.ttf');
+    font-family: 'Arial Rounded MT';
+    src: url('/stage/fonts/ArialRoundedMT-Regular.ttf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Arial Rounded MT';
+    src: url('/stage/fonts/ArialRoundedMT-Bold.ttf');
+    font-weight: bold;
 }
 
 body {
@@ -77,7 +84,8 @@ body {
     justify-content: center;
 
     background-color: rgb(2, 21, 78, 0.5);
-    font-family: 'Arial Rounded MT Bold';
+    font-family: 'Arial Rounded MT';
+    font-weight: bold;
     text-shadow: 2px 2px 2px rgb(37, 37, 37);
 }
 #slide-main .main-text {
