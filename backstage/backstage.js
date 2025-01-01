@@ -155,13 +155,13 @@ window.OpenLP = {
         // Get header
         $("#interim").html(currentSlide.html);
         let DOMSlideHeaderTexts = $("#interim").find(".slide-header-texts")
-        let slideHeaderText = defaultSlideHeaderText
+        let tempSlideHeaderText = [defaultSlideHeaderText];
         if (DOMSlideHeaderTexts.length > 0) {
-          slideHeaderText = Array.from(DOMSlideHeaderTexts, (el) => el.innerHTML);
+          tempSlideHeaderText = Array.from(DOMSlideHeaderTexts, (el) => el.innerHTML);
 
           removeDOMWithPrevOrNextBr(DOMSlideHeaderTexts);
         }
-        slideHeaderText = slideHeaderText.join('\n').trim();
+        let slideHeaderText = tempSlideHeaderText.join('\n').trim();
 
         // Get congregation instruction
         let DOMCongregationInstructionTexts = $("#interim").find(".congregation-instruction-texts")
