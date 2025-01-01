@@ -175,9 +175,12 @@ body {
     top: 0px;
     width: 100%;
     height: 100%;
+    /* Temporarily disable #slide-white background (which was previously used for interim background between image transitions) */
+    /* As currently, with the new approach (check the JS file on animateDOMImageTransition()), we no longer need this. */
     /* background-color: rgb(255, 255, 255); */
-    /* background-image: url("/stage/kebaktian-general-2023_2.0/background-for-song.jpg"); */
-    background-image: url("/stage/kebaktian-general-2023_2.0/white-frame-punched-out-long.png");
+    /* background-image: url("/stage/kebaktian-general-2025_1.0/background-for-song.jpg"); */
+    /* background-image: url("/stage/kebaktian-general-2025_1.0/white-frame-punched-out-long_v2.png"); */
+    background-size: contain;
     display: none;
     z-index: 4;
 }

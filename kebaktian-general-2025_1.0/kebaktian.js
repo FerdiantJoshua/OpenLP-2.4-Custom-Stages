@@ -93,7 +93,8 @@ window.OpenLP = {
         doms[shownIdx].css("position", "");
         doms[hiddenIdx].fadeOut(transitionDuration);
         if (doms[shownIdx][0].src) {
-          doms[shownIdx].fadeIn(transitionDuration);
+          // temporarily set this to fadeIn(0) --> so that transition between images never reaches state of alpha=0.5 (thus exposing everything behind the image.)
+          doms[shownIdx].fadeIn(0);
         }
         break;
       }
